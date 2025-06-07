@@ -1,0 +1,76 @@
+/* src/components/DoctorNavbar.css */
+
+.doctor-navbar {
+  background-color: #e8f0fe;
+  border-bottom: 1px solid #cbd5e0;
+  padding: 18px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.doctor-navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.doctor-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.doctor-icon {
+  color: #2563eb;
+  width: 28px;
+  height: 28px;
+}
+
+.doctor-logo-text {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1e3a8a;
+}
+
+.doctor-nav-links {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.doctor-nav-links a {
+  text-decoration: none;
+  color: #1e3a8a;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.doctor-nav-links a:hover {
+  background-color: #dbeafe;
+  color: #2563eb;
+}
+
+.doctor-profile-icon {
+  width: 22px;
+  height: 22px;
+  color: #1e3a8a;
+  transition: color 0.2s ease;
+}
+
+.doctor-nav-links a:hover .doctor-profile-icon {
+  color: #2563eb;
+}

@@ -1,0 +1,153 @@
+/* Bütün səhifə full ekran, flex ilə ortalanıb */
+.faq-page {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #243B55 0%, #141E30 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 15px;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+  color: #f0f4f8;
+}
+
+/* Arxa planda animasiyalı dairələr */
+.faq-bg {
+  position: absolute;
+  top: -150px;
+  left: -150px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(63,114,175,0.7) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(120px);
+  animation: pulse 8s infinite ease-in-out;
+  z-index: 0;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1) translate(0,0);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.1) translate(10px, 10px);
+    opacity: 0.4;
+  }
+}
+
+/* Container faq suallar üçün */
+.faq-container {
+  position: relative;
+  max-width: 720px;
+  width: 100%;
+  background-color: rgba(20, 30, 48, 0.85);
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(63, 114, 175, 0.35);
+  z-index: 10;
+}
+
+/* Başlıq */
+.faq-header {
+  font-size: 3rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 35px;
+  letter-spacing: 1.2px;
+  color: #5AB9EA;
+  text-shadow: 0 0 12px rgba(90, 185, 234, 0.7);
+}
+
+/* Accordion suallar */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.faq-item {
+  border: 2px solid transparent;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: background-color 0.4s ease, border-color 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.faq-item:hover {
+  background-color: rgba(90, 185, 234, 0.12);
+  border-color: #5AB9EA;
+  box-shadow: 0 8px 20px rgba(90, 185, 234, 0.5);
+}
+
+.faq-item.active {
+  background-color: rgba(90, 185, 234, 0.15);
+  border-color: #5AB9EA;
+  box-shadow: 0 8px 30px rgba(90, 185, 234, 0.7);
+}
+
+/* Sualların başlığı */
+.faq-question {
+  padding: 22px 30px;
+  font-weight: 700;
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #a4d9ff;
+  text-shadow: 0 0 5px rgba(90, 185, 234, 0.9);
+}
+
+/* + və - ikonları */
+.faq-toggle-icon {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #1a8fe3;
+  transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-toggle-icon {
+  transform: rotate(180deg);
+  color: #d2f1ff;
+}
+
+/* Cavab bölməsi */
+.faq-answer {
+  padding: 20px 30px 28px;
+  font-size: 1.05rem;
+  color: #d1e8ff;
+  line-height: 1.6;
+  border-top: 1px solid rgba(90, 185, 234, 0.4);
+  animation: fadeIn 0.35s ease forwards;
+}
+
+/* Cavab animasiyası */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .faq-container {
+    padding: 30px 20px;
+  }
+  .faq-header {
+    font-size: 2rem;
+  }
+  .faq-question {
+    font-size: 1.1rem;
+  }
+  .faq-toggle-icon {
+    font-size: 2rem;
+  }
+}

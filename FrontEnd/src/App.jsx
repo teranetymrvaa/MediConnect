@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import PatientRegister from "./pages/Register/PatientRegister/PatientRegister";
 import DoctorRegister from "./pages/Register/DoctorRegister/DoctorRegister";
@@ -14,31 +14,52 @@ import DoctorLayout from "./layout/DoctorLayout";
 import DoctorProfile from "./pages/DoctorProfile/DoctorProfile";
 import MyAppointments from "./pages/MyAppointments/MyAppointments";
 import NoPage from "./pages/NoPage";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Layout-dan KƏNAR səhifələr */}
+        {/* Əgər giriş edilməyibsə, ana səhifədən login-ə yönləndir */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+
+        {/* Giriş və qeydiyyat səhifələri */}
         <Route path="/login" element={<Login />} />
         <Route path="/patientRegister" element={<PatientRegister />} />
         <Route path="/doctorRegister" element={<DoctorRegister />} />
 
-        {/* Layout DAXİLİ səhifələr */}
-        <Route path="/" element={<PublicLayout />}>
+        {/* İctimai layout (qorunan) */}
+        <Route
+          path="/public/*"
+          element={
+            <ProtectedRoute>
+              <PublicLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Home />} />
-          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="wishlist" element={<Wishlist />} />
           <Route path="appointments" element={<Appointments />} />
-          <Route path="/patientProfile" element={<PatientProfile />} />
-          <Route path="/faq" element={<Faq />} />
-          <Route path="/doctorDetails/:id" element={<DoctorDetails />} />
-          <Route path="*" element={<NoPage />} />
+          <Route path="patientProfile" element={<PatientProfile />} />
+          <Route path="faq" element={<Faq />} />
+          <Route path="doctorDetails/:id" element={<DoctorDetails />} />
         </Route>
-        <Route path="/doctor" element={<DoctorLayout />}>
-          <Route index element={<DoctorProfile />} />
-          <Route path="myAppointments" element={<MyAppointments />} />
-          <Route path="*" element={<NoPage/>} />
+
+        {/* Həkim üçün layout (qorunan) */}
+        <Route
+          path="/doctor"
+          element={
+            <ProtectedRoute>
+              <DoctorLayout />
+            </ProtectedRoute>
+          }
+        >
+         <Route path="/doctor/:id" element={<DoctorProfile />} />
+  <Route path="myAppointments" element={<MyAppointments />} />
         </Route>
+
+        {/* Not Found */}
+        <Route path="*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>
   );

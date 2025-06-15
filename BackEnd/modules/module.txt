@@ -1,0 +1,7 @@
+module.txt
+A module in Node.js is a reusable block of code that can be imported/exported across different files. Node.js has built-in modules (like fs, http, path) and also allows custom modules.
+Example:
+// customModule.js
+module.exports.sayHello = function() {
+    return "Hello, World!";
+};

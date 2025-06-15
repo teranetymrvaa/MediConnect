@@ -1,9 +1,9 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-  const user = localStorage.getItem('user'); // və ya token
+  const accessToken = localStorage.getItem("accessToken"); // və ya token
 
-  if (!user) {
+  if (!accessToken) {
     return <Navigate to="/login" replace />;
   }
 

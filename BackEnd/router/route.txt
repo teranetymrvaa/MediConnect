@@ -1,0 +1,11 @@
+route.txt
+Routes in Node.js define the different API endpoints that the application exposes. They map HTTP requests (GET, POST, PUT, DELETE) to specific controller functions.
+Example:
+const express = require('express');
+const router = express.Router();
+const userController = require('../controllers/userController');
+
+router.get('/users', userController.getUsers);
+router.post('/users', userController.createUser);
+
+module.exports = router;

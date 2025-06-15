@@ -1,39 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import './DoctorRegister.css';
+import { useState } from "react";
+import axios from "axios";
+import "./DoctorRegister.css";
+import { useNavigate } from "react-router-dom";
 
 const cities = [
-  "Bakı", "Gəncə", "Sumqayıt", "Şəki", "Mingəçevir",
-  "Lənkəran", "Quba", "Naftalan", "Qəbələ", "Şirvan",
-  "Salyan", "Yevlax",
+  "Bakı",
+  "Gəncə",
+  "Sumqayıt",
+  "Şəki",
+  "Mingəçevir",
+  "Lənkəran",
+  "Quba",
+  "Naftalan",
+  "Qəbələ",
+  "Şirvan",
+  "Salyan",
+  "Yevlax",
 ];
 
 function DoctorRegister() {
-  const STORAGE_KEY = 'doctorRegisterForm';
-
-  const [formData, setFormData] = useState(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : {
-      name: '',
-      specialization: '',
-      email: '',
-      password: '',
-      profileImage: '',
-      city: '',
-      price: '',
-      hospitalName: '',
-      description: '',
-    };
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    specialization: "",
+    profileImage: "",
+    city: "",
+    price: "",
+    hospitalName: "",
+    description: "",
   });
-
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-  }, [formData]);
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -42,31 +40,26 @@ function DoctorRegister() {
     e.preventDefault();
 
     try {
-      // POST request backendə
-      const response = await axios.post('http://localhost:5000/api/doctors/register', formData);
+      const payload = { ...formData, role: "doctor" };
+      await axios.post("http://localhost:5000/api/doctors/register", payload);
 
-      setMessage('Qeydiyyat uğurla tamamlandı!');
-
-      // Formu sıfırla
-      const emptyForm = {
-        name: '',
-        specialization: '',
-        email: '',
-        password: '',
-        profileImage: '',
-        city: '',
-        price: '',
-        hospitalName: '',
-        description: '',
-      };
-      setFormData(emptyForm);
-      localStorage.removeItem(STORAGE_KEY);
-
-      // Backenddən gələn doctorId ilə profil səhifəsinə yönləndir
-      const doctorId = response.data.doctorId;
-      navigate(`/doctor/${doctorId}`);
+      setMessage("Qeydiyyat uğurla tamamlandı!");
+      setTimeout(() => {
+        navigate("/login");
+      }, 500); // Redirect after 2 secondsq
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        specialization: "",
+        profileImage: "",
+        city: "",
+        price: "",
+        hospitalName: "",
+        description: "",
+      });
     } catch (error) {
-      setMessage(error.response?.data?.message || 'Xəta baş verdi!');
+      setMessage(error.response?.data?.message || "Xəta baş verdi!");
     }
   };
 
@@ -74,21 +67,12 @@ function DoctorRegister() {
     <div className="doctor-register-container">
       <form className="doctor-register-form" onSubmit={handleSubmit}>
         <h2>Həkim Qeydiyyatı</h2>
-        
+
         <input
           type="text"
           name="name"
           placeholder="Ad və Soyad"
           value={formData.name}
-          onChange={handleChange}
-          required
-        />
-        
-        <input
-          type="text"
-          name="specialization"
-          placeholder="İxtisas"
-          value={formData.specialization}
           onChange={handleChange}
           required
         />
@@ -101,7 +85,7 @@ function DoctorRegister() {
           onChange={handleChange}
           required
         />
-        
+
         <input
           type="password"
           name="password"
@@ -110,7 +94,16 @@ function DoctorRegister() {
           onChange={handleChange}
           required
         />
-        
+
+        <input
+          type="text"
+          name="specialization"
+          placeholder="İxtisas"
+          value={formData.specialization}
+          onChange={handleChange}
+          required
+        />
+
         <input
           type="url"
           name="profileImage"
@@ -125,9 +118,13 @@ function DoctorRegister() {
           onChange={handleChange}
           required
         >
-          <option value="" disabled>Şəhər/Rayon seçin</option>
+          <option value="" disabled>
+            Şəhər/Rayon seçin
+          </option>
           {cities.map((city) => (
-            <option key={city} value={city}>{city}</option>
+            <option key={city} value={city}>
+              {city}
+            </option>
           ))}
         </select>
 

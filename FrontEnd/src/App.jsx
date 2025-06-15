@@ -10,18 +10,31 @@ import Faq from "./pages/Faq/Faq";
 import Appointments from "./pages/Appointments/Appointments";
 import DoctorDetails from "./pages/DoctorDetails/DoctorDetails";
 import PatientProfile from "./pages/PatientProlfile/PatientProfile";
+
 import DoctorLayout from "./layout/DoctorLayout";
 import DoctorProfile from "./pages/DoctorProfile/DoctorProfile";
 import MyAppointments from "./pages/MyAppointments/MyAppointments";
+
 import NoPage from "./pages/NoPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
+  const accessToken = localStorage.getItem("accessToken");
+
   return (
     <BrowserRouter>
       <Routes>
-        {/* Əgər giriş edilməyibsə, ana səhifədən login-ə yönləndir */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        {/* Əsas yönləndirmə: login oldusa -> public, yoxdursa -> login */}
+        <Route
+          path="/"
+          element={
+            accessToken ? (
+              <Navigate to="/public" replace />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
 
         {/* Giriş və qeydiyyat səhifələri */}
         <Route path="/login" element={<Login />} />
@@ -30,7 +43,7 @@ function App() {
 
         {/* İctimai layout (qorunan) */}
         <Route
-          path="/public/*"
+          path="/public"
           element={
             <ProtectedRoute>
               <PublicLayout />
@@ -45,7 +58,7 @@ function App() {
           <Route path="doctorDetails/:id" element={<DoctorDetails />} />
         </Route>
 
-        {/* Həkim üçün layout (qorunan) */}
+        {/* Həkim layoutu (qorunan) */}
         <Route
           path="/doctor"
           element={
@@ -54,11 +67,11 @@ function App() {
             </ProtectedRoute>
           }
         >
-         <Route path="/doctor/:id" element={<DoctorProfile />} />
-  <Route path="myAppointments" element={<MyAppointments />} />
+          <Route path=":id" element={<DoctorProfile />} />
+          <Route path="myAppointments" element={<MyAppointments />} />
         </Route>
 
-        {/* Not Found */}
+        {/* 404 səhifəsi */}
         <Route path="*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>

@@ -14,21 +14,21 @@ function PublicNavbar() {
         </div>
         <ul className="nav-links">
           <li>
-            <Link to="/">Ana səhifə</Link>
+            <Link to="/public">Ana səhifə</Link>
           </li>
           <li>
-            <Link to="/appointments">Növbələrim</Link>
+            <Link to="/public/appointments">Növbələrim</Link>
           </li>
           <li>
-            <Link to="/wishlist">Bəyəndiklərim</Link>
+            <Link to="/public/wishlist">Bəyəndiklərim</Link>
           </li>
           <li>
-            <Link to="/patientProfile" className="profile-link">
+            <Link to="/public/patientProfile" className="profile-link">
               <CgProfile className="patient-icon" />
             </Link>
           </li>
           <li>
-            <Link to="/faq">FAQ</Link>
+            <Link to="/public/faq">FAQ</Link>
           </li>
         </ul>
       </div>

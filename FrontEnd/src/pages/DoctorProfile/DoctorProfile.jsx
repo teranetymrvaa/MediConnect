@@ -1,32 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import './DoctorProfile.css';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import "./DoctorProfile.css";
+import axiosInstance from "../../../api/axiosInstance";
 
 function DoctorProfile() {
   const [doctor, setDoctor] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDoctor = async () => {
       try {
-        const token = localStorage.getItem('doctorToken');
-        if (!token) {
-          navigate('/login');
+        const token = localStorage.getItem("accessToken");
+        const id = localStorage.getItem("doctorId");
+
+        console.log("Token:", token);
+        console.log("Doctor ID:", id);
+
+        if (!token || !id) {
+          console.warn("Token və ya ID tapılmadı, login səhifəsinə yönləndirilir.");
+          navigate("/login");
           return;
         }
 
-        const response = await axios.get('http://localhost:5000/api/doctors/me', {
+        const response = await axiosInstance.get(`/doctors/${id}`, {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
 
+        console.log("Gələn doktor məlumatı:", response.data);
+
         setDoctor(response.data);
-      } catch (err) {
-        setError('Profil məlumatı yüklənə bilmədi.');
+      } catch (error) {
+        console.error("Məlumat alınarkən xəta baş verdi:", error);
       } finally {
         setLoading(false);
       }
@@ -36,34 +44,41 @@ function DoctorProfile() {
   }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem('doctorToken');
-    navigate('/login');
+    localStorage.clear();
+    navigate("/login");
   };
 
-  if (loading) return <p style={{ textAlign: 'center' }}>Yüklənir...</p>;
-  if (error) return <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>;
+  if (loading) return <div className="loading">Yüklənir...</div>;
+
+  if (!doctor) return <div className="error">Həkim tapılmadı.</div>; // əlavə təhlükəsizlik
 
   return (
-    <div className="doctor-profile-container">
-      <div className="profile-header">
-        <img
-          src={doctor.profileImage || 'https://via.placeholder.com/150'}
-          alt={doctor.name}
-          className="profile-img"
-        />
-        <div>
-          <h2>{doctor.name}</h2>
-          <p><strong>İxtisas:</strong> {doctor.specialization}</p>
+    <div className="doctor-profile">
+      <div className="profile-card">
+        <div className="profile-image">
+          <img
+            src={doctor.profileImage || "https://via.placeholder.com/150"}
+            alt={doctor.name}
+          />
+        </div>
+        <div className="profile-info">
+          <h1>{doctor.name}</h1>
+          <p><strong>Ixtisas:</strong> {doctor.specialization}</p>
           <p><strong>Şəhər:</strong> {doctor.city}</p>
           <p><strong>Xəstəxana:</strong> {doctor.hospitalName}</p>
           <p><strong>Qiymət:</strong> {doctor.price} AZN</p>
+          <p><strong>Email:</strong> {doctor.email}</p>
         </div>
       </div>
-      <div className="profile-description">
-        <h3>Haqqımda</h3>
-        <p>{doctor.description || 'Həkim haqqında məlumat yoxdur.'}</p>
+
+      <div className="about-section">
+        <h2>Haqqımda</h2>
+        <p>{doctor.description || "Həkim haqqında məlumat əlavə edilməyib."}</p>
       </div>
-      <button className="logout-btn" onClick={handleLogout}>Çıxış</button>
+
+      <button className="logout-button" onClick={handleLogout}>
+        Çıxış et
+      </button>
     </div>
   );
 }

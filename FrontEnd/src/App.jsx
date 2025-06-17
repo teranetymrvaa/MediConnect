@@ -20,28 +20,33 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
   const accessToken = localStorage.getItem("accessToken");
+  const role = localStorage.getItem("role");
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* Əsas yönləndirmə: login oldusa -> public, yoxdursa -> login */}
+        {/* Əsas yönləndirmə: token + role əsaslı */}
         <Route
           path="/"
           element={
             accessToken ? (
-              <Navigate to="/public" replace />
+              role === "doctor" ? (
+                <Navigate to="/doctor/profile" replace />
+              ) : (
+                <Navigate to="/public" replace />
+              )
             ) : (
               <Navigate to="/login" replace />
             )
           }
         />
 
-        {/* Giriş və qeydiyyat səhifələri */}
+        {/* Login və qeydiyyat yolları */}
         <Route path="/login" element={<Login />} />
         <Route path="/patientRegister" element={<PatientRegister />} />
         <Route path="/doctorRegister" element={<DoctorRegister />} />
 
-        {/* İctimai layout (qorunan) */}
+        {/* Pasiyentlər üçün qorunan yollar */}
         <Route
           path="/public"
           element={
@@ -58,7 +63,7 @@ function App() {
           <Route path="doctorDetails/:id" element={<DoctorDetails />} />
         </Route>
 
-        {/* Həkim layoutu (qorunan) */}
+        {/* Həkim paneli yolları */}
         <Route
           path="/doctor"
           element={
@@ -67,7 +72,7 @@ function App() {
             </ProtectedRoute>
           }
         >
-          <Route path=":id" element={<DoctorProfile />} />
+          <Route path="profile" element={<DoctorProfile />} />
           <Route path="myAppointments" element={<MyAppointments />} />
         </Route>
 

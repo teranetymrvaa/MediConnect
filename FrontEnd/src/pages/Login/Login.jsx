@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import "./Login.css";
 import axiosInstance from "../../../api/axiosInstance";
+import "./Login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -10,11 +9,18 @@ function Login() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  // Əgər artıq daxil olunubsa, login səhifəsinə daxil olmaq olmaz
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
+    const role = localStorage.getItem("role");
+
     if (token) {
-      navigate("/public");
+      if (role === "doctor") {
+        navigate("/doctor");
+      } else if (role === "patient") {
+        navigate("/public");
+      } else {
+        navigate("/public");
+      }
     }
   }, [navigate]);
 
@@ -34,8 +40,13 @@ function Login() {
       localStorage.setItem("doctorId", doctorId);
       localStorage.setItem("role", role);
 
-      // 🔁 Login sonrası birbaşa qorunan route-a yönləndir
-      navigate("/public");
+      if (role === "doctor") {
+        navigate("/doctor");
+      } else if (role === "patient") {
+        navigate("/public");
+      } else {
+        navigate("/public");
+      }
     } catch (error) {
       setMessage(
         error.response?.data?.message || "Giriş zamanı xəta baş verdi!"

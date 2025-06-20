@@ -16,13 +16,13 @@ export const registerPatient = async (req, res) => {
 
     const accessToken = jwt.sign(
       { id: patient._id, role: "patient" },
-      process.env.JWT_SECRET,
+      process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "1h" }
     );
 
     const refreshToken = jwt.sign(
       { id: patient._id, role: "patient" },
-      process.env.JWT_REFRESH_SECRET,
+      process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "7d" }
     );
 
@@ -55,13 +55,13 @@ export const loginPatient = async (req, res) => {
 
     const accessToken = jwt.sign(
       { id: patient._id, role: "patient" },
-      process.env.JWT_SECRET,
+      process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "1h" }
     );
 
     const refreshToken = jwt.sign(
       { id: patient._id, role: "patient" },
-      process.env.JWT_REFRESH_SECRET,
+      process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "7d" }
     );
 

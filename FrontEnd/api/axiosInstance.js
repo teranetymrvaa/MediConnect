@@ -1,11 +1,12 @@
 // src/api/axiosInstance.js
 import axios from "axios";
 
+// Axios instansiyası
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000/api/",
+  baseURL: "http://localhost:5000/api",
 });
 
-// ✅ Request interceptor
+// ✅ Request interceptor – hər request göndəriləndə token əlavə et
 axiosInstance.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem("accessToken");
@@ -26,7 +27,7 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// ✅ Response interceptor
+// ✅ Response interceptor – 401 olduqda refresh token ilə yenilə
 axiosInstance.interceptors.response.use(
   (response) => {
     console.log("✅ Response alındı:", response.config.url);
@@ -36,44 +37,53 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
     const refreshToken = localStorage.getItem("refreshToken");
 
+    // Access token expired and refresh token is available
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
       refreshToken
     ) {
-      console.warn("⏳ Access Token expired. Refresh ediləcək...");
       originalRequest._retry = true;
+      console.warn("⏳ Access Token vaxtı bitdi. Refresh ediləcək...");
 
       try {
+        const role = localStorage.getItem("role"); // 'doctor' və ya 'patient'
+
+        // Hər rola uyğun refresh endpoint
+        const refreshEndpoint =
+          role === "doctor" ? "/doctors/refresh" : "/patients/refresh";
+
         console.log("🔄 Refresh token ilə yeni access token alınır...");
-        const res = await axios.post("http://localhost:5000/api/refresh", {
-          refreshToken,
-        });
+        const res = await axios.post(
+          `http://localhost:5000/api${refreshEndpoint}`,
+          { refreshToken }
+        );
 
         const newAccessToken = res.data.accessToken;
         console.log("✅ Yeni access token alındı:", newAccessToken);
 
+        // Yeni access tokeni yaddaşa yaz
         localStorage.setItem("accessToken", newAccessToken);
 
-        // Yeni tokeni request-ə əlavə et
-        axiosInstance.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${newAccessToken}`;
+        // Yeni tokeni request-ə əlavə et və yenidən göndər
         originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-
-        console.log("🔁 Retry olunan request:", originalRequest.url);
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         console.error("❌ Refresh token xətası:", refreshError);
 
-        // Tokenlər silinsin və login səhifəsinə yönləndirilsin
+        // Tokenlər silinir və login səhifəsinə yönləndirilir
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        console.warn("🔓 Refresh uğursuz. Yenidən login tələb olunur.");
+        localStorage.removeItem("doctorId");
+        localStorage.removeItem("patientId");
+        localStorage.removeItem("role");
+
+        console.warn("🔓 Yenidən giriş tələb olunur.");
         window.location.href = "/login";
       }
     }
 
+    // Əgər başqa səbəbdən xətadırsa
     console.error("❌ Response interceptor xətası:", error);
     return Promise.reject(error);
   }

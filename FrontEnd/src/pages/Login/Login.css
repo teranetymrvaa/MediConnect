@@ -77,3 +77,29 @@
 .register-links span:hover {
   color: #112d4e;
 }
+.role-select {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.role-select label {
+  display: block;
+  margin-bottom: 6px;
+  color: #3f72af;
+  font-weight: 500;
+}
+
+.role-select select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+  transition: border 0.3s ease;
+}
+
+.role-select select:focus {
+  border-color: #3f72af;
+  outline: none;
+}

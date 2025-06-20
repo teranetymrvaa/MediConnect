@@ -1,3 +1,4 @@
+// controllers/patientController.js
 import Patient from "../models/Patient.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -13,14 +14,26 @@ export const registerPatient = async (req, res) => {
     const hashed = await bcrypt.hash(password, 10);
     const patient = await Patient.create({ ...rest, email, password: hashed });
 
-    const token = jwt.sign(
+    const accessToken = jwt.sign(
       { id: patient._id, role: "patient" },
       process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    const refreshToken = jwt.sign(
+      { id: patient._id, role: "patient" },
+      process.env.JWT_REFRESH_SECRET,
       { expiresIn: "7d" }
     );
 
-    res.json({ patientId: patient._id, token });
-  } catch {
+    res.json({
+      accessToken,
+      refreshToken,
+      patientId: patient._id,
+      role: "patient",
+    });
+  } catch (error) {
+    console.error("Qeydiyyat xətası:", error);
     res.status(500).json({ message: "Server xətası" });
   }
 };
@@ -59,6 +72,7 @@ export const loginPatient = async (req, res) => {
       role: "patient",
     });
   } catch (error) {
+    console.error("Login xətası:", error);
     res.status(500).json({ message: "Server xətası" });
   }
 };

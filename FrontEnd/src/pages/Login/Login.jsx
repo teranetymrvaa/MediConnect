@@ -6,6 +6,7 @@ import "./Login.css";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("doctor"); // Yeni: rol seçimi üçün state
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
@@ -28,21 +29,23 @@ function Login() {
     e.preventDefault();
 
     try {
-      const res = await axiosInstance.post("doctors/login", {
+      const res = await axiosInstance.post(`${role}s/login`, {
         email,
         password,
       });
 
-      const { accessToken, refreshToken, doctorId, role } = res.data;
+      const { accessToken, refreshToken, doctorId, patientId, role: returnedRole } = res.data;
 
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
-      localStorage.setItem("doctorId", doctorId);
-      localStorage.setItem("role", role);
+      localStorage.setItem("role", returnedRole);
 
-      if (role === "doctor") {
+      // Həkim və pasiyent ID-ləri fərqli olduğu üçün ikisini də yoxlayırıq
+      if (returnedRole === "doctor") {
+        localStorage.setItem("doctorId", doctorId);
         navigate("/doctor");
-      } else if (role === "patient") {
+      } else if (returnedRole === "patient") {
+        localStorage.setItem("patientId", patientId);
         navigate("/public");
       } else {
         navigate("/public");
@@ -59,6 +62,16 @@ function Login() {
       <div className="login-card">
         <h2>Giriş et</h2>
         <p>Hesabınıza daxil olun</p>
+
+        {/* ROL SEÇİMİ */}
+        <div className="role-select">
+          <label>Rol:</label>
+          <select value={role} onChange={(e) => setRole(e.target.value)}>
+            <option value="doctor">Həkim</option>
+            <option value="patient">Pasiyent</option>
+          </select>
+        </div>
+
         <form onSubmit={handleLogin}>
           <input
             type="email"

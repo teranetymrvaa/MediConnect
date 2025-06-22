@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
+.profile-wrapper {
+  min-height: 100vh;
+  background: radial-gradient(circle at center, #0f2027, #203a43, #2c5364);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #e0f7fa;
+  font-family: 'Poppins', sans-serif;
+  /* user-select: none; */
+}
+
+.profile-card {
+  background: linear-gradient(145deg, #1e3c4d, #274859);
+  border-radius: 25px;
+  padding: 45px 40px;
+  max-width: 460px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 255, 255, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-header {
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.heartbeat-icon {
+  font-size: 3.5rem;
+  color: #ff1744;
+  animation: pulseHeart 1.5s infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes pulseHeart {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.profile-header h1 {
+  font-weight: 800;
+  font-size: 2.8rem;
+  margin: 0;
+  letter-spacing: 2px;
+  color: #00e5ff;
+  text-shadow: 0 0 12px #00e5ffaa;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #80deea;
+  margin-top: 4px;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 1.15rem;
+  margin: 12px 0;
+  color: #b2ebf2;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 14px 20px;
+  width: 100%;
+  box-shadow: inset 0 0 10px #00bcd4aa;
+  transition: background-color 0.3s ease;
+}
+
+.profile-info:hover {
+  background-color: rgba(0, 188, 212, 0.15);
+  box-shadow: 0 0 15px #00bcd4cc;
+}
+
+.icon {
+  font-size: 1.5rem;
+  color: #00bcd4;
+  min-width: 30px;
+}
+
+.btn-logout {
+  margin-top: 35px;
+  padding: 16px 50px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #ff5252, #ff1744);
+  border: none;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 25px #ff1744aa;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: linear-gradient(135deg, #ff1744, #ff5252);
+  box-shadow: 0 0 35px #ff5255;
+}
+
+.loading, .error {
+  color: #ff8a80;
+  font-size: 1.3rem;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.health-quote {
+  margin-top: 45px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-style: italic;
+  color: #4dd0e1;
+  text-align: center;
+  max-width: 460px;
+  filter: drop-shadow(0 0 5px #4dd0e1aa);
+}

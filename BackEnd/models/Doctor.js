@@ -6,7 +6,11 @@ const DoctorSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     specialization: { type: String, required: true },
-    profileImage: { type: String, default: "" },
+    profileImage: {
+      type: String,
+      default:
+        "https://i.pinimg.com/736x/2c/47/d5/2c47d5dd5b532f83bb55c4cd6f5bd1ef.jpg",
+    },
     city: { type: String },
     price: { type: Number, default: 0 },
     hospitalName: { type: String },

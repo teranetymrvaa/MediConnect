@@ -24,42 +24,61 @@ function DoctorRegister() {
     email: "",
     password: "",
     specialization: "",
-    profileImage: "",
     city: "",
     price: "",
     hospitalName: "",
     description: "",
   });
+  const [profileImageFile, setProfileImageFile] = useState(null);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const handleChange = (e) => {
+
+  const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleFileChange = (e) => setProfileImageFile(e.target.files[0]);
+
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+      specialization: "",
+      city: "",
+      price: "",
+      hospitalName: "",
+      description: "",
+    });
+    setProfileImageFile(null);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const payload = { ...formData, role: "doctor" };
-      await axios.post("http://localhost:5000/api/doctors/register", payload);
+      // 1) Register JSON
+      const { data } = await axios.post(
+        "http://localhost:5000/api/doctors/register",
+        { ...formData, role: "doctor" }
+      );
+      const doctorId = data.doctorId;
 
-      setMessage("Qeydiyyat uğurla tamamlandı!");
-      setTimeout(() => {
-        navigate("/login");
-      }, 500); // Redirect after 2 secondsq
-      setFormData({
-        name: "",
-        email: "",
-        password: "",
-        specialization: "",
-        profileImage: "",
-        city: "",
-        price: "",
-        hospitalName: "",
-        description: "",
-      });
-    } catch (error) {
-      setMessage(error.response?.data?.message || "Xəta baş verdi!");
+      // 2) If there's a selected file, upload it
+      if (profileImageFile) {
+        const picData = new FormData();
+        picData.append("profilePic", profileImageFile);
+        await axios.post(
+          `http://localhost:5000/api/doctors/${doctorId}/profile-pic`,
+          picData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
+      }
+
+      setMessage("Qeydiyyat və şəkil yükləmə uğurla tamamlandı!");
+      resetForm();
+      setTimeout(() => navigate("/login"), 1500);
+    } catch (err) {
+      setMessage(err.response?.data?.message || "Xəta baş verdi!");
     }
   };
 
@@ -104,13 +123,8 @@ function DoctorRegister() {
           required
         />
 
-        <input
-          type="url"
-          name="profileImage"
-          placeholder="Profil şəkil URL-si (istəyə bağlı)"
-          value={formData.profileImage}
-          onChange={handleChange}
-        />
+        {/* PROFILE PIC */}
+        <input type="file" accept="image/*" onChange={handleFileChange} />
 
         <select
           name="city"
@@ -121,9 +135,9 @@ function DoctorRegister() {
           <option value="" disabled>
             Şəhər/Rayon seçin
           </option>
-          {cities.map((city) => (
-            <option key={city} value={city}>
-              {city}
+          {cities.map((c) => (
+            <option key={c} value={c}>
+              {c}
             </option>
           ))}
         </select>
@@ -149,15 +163,14 @@ function DoctorRegister() {
 
         <textarea
           name="description"
+          rows="4"
           placeholder="Özünüz haqda məlumat yazın"
           value={formData.description}
           onChange={handleChange}
-          rows="4"
           required
         />
 
         <button type="submit">Qeydiyyat</button>
-
         {message && <p className="register-message">{message}</p>}
       </form>
     </div>

@@ -1,19 +1,17 @@
 // src/components/DoctorNavbar.jsx
-import React from "react";
 import { Link } from "react-router-dom";
 import "./DoctorNavbar.css";
-import { MdOutlineDashboard } from "react-icons/md";
-import { AiOutlineCalendar } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
+import { GiMedicalDrip } from "react-icons/gi";
 
 function DoctorNavbar() {
   return (
     <nav className="doctor-navbar">
       <div className="container doctor-navbar-container">
-        <div className="doctor-logo">
-          <MdOutlineDashboard className="doctor-icon" />
-          <span className="doctor-logo-text">Doctor Panel</span>
-        </div>
+        <Link to={"/public"} className="nav-icon">
+          <GiMedicalDrip className="medical-icon" />
+          <div className="logo-text">MediConnect</div>
+        </Link>
         <ul className="doctor-nav-links">
           <li>
             <Link to="profile">Profilim</Link>
@@ -22,7 +20,7 @@ function DoctorNavbar() {
             <Link to="myAppointments">Randevularım</Link>
           </li>
           <li>
-            <Link to="">
+            <Link to="profile" className="doctor-profile-link">
               <CgProfile className="doctor-profile-icon" />
             </Link>
           </li>

@@ -2,6 +2,58 @@
 import Doctor from "../models/Doctor.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import streamifier from "streamifier";
+import cloudinary from "../config/cloudinary.js";
+
+export const uploadProfilePic = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "Şəkil göndərilməyib" });
+    }
+
+    const streamUpload = () => {
+      return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            folder: "profile_pics",
+            public_id: `doctor_${req.params.id}`,
+            overwrite: true,
+          },
+          (error, result) => {
+            if (result) resolve(result);
+            else reject(error);
+          }
+        );
+        streamifier.createReadStream(req.file.buffer).pipe(stream);
+      });
+    };
+
+    const result = await streamUpload();
+
+    const imageUrl = result.secure_url;
+
+    // Həkimin profil şəklini yenilə
+    const doctor = await Doctor.findByIdAndUpdate(
+      req.params.id,
+      { profileImage: imageUrl },
+      { new: true }
+    );
+
+    if (!doctor) {
+      return res.status(404).json({ message: "Həkim tapılmadı" });
+    }
+
+    res.json({
+      message: "Profil şəkli uğurla yükləndi",
+      profileImage: doctor.profileImage,
+    });
+  } catch (error) {
+    console.error("Cloudinary yükləmə xətası:", error);
+    res
+      .status(500)
+      .json({ message: "Cloudinary yükləmə xətası", error: error.message });
+  }
+};
 
 // Login funksiyasi
 export const loginDoctor = async (req, res) => {

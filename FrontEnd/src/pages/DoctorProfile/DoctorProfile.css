@@ -1,8 +1,8 @@
 .doctor-profile {
-  height: 100vh;
-  padding: 40px;
-  background: linear-gradient(to right, #f5f7fa, #c3cfe2);
-  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  padding: 50px 20px;
+  background: linear-gradient(to right, #e0ecf8, #f0f4ff);
+  font-family: "Segoe UI", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,64 +10,93 @@
 
 .profile-card {
   display: flex;
-  gap: 30px;
-  background: white;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-  width: 80%;
+  flex-wrap: wrap;
+  gap: 40px;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  width: 100%;
   max-width: 1000px;
+  align-items: center;
 }
 
 .profile-image img {
-  width: 180px;
-  height: 180px;
-  border-radius: 100%;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
   object-fit: cover;
-  border: 5px solid #007bff;
+  border: 6px solid #2563eb;
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.2);
 }
 
 .profile-info {
   flex: 1;
+  min-width: 260px;
 }
 
 .profile-info h1 {
-  margin: 0 0 10px 0;
-  font-size: 32px;
+  margin: 0 0 16px 0;
+  font-size: 36px;
+  font-weight: 700;
+  color: #1e3a8a;
 }
 
 .profile-info p {
-  margin: 6px 0;
-  font-size: 16px;
+  margin: 8px 0;
+  font-size: 17px;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.profile-info p strong {
+  color: #2563eb;
 }
 
 .about-section {
-  margin-top: 30px;
-  background: white;
-  width: 80%;
+  margin-top: 40px;
+  background: #ffffff;
+  width: 100%;
   max-width: 1000px;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  font-size: 17px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.about-section h2 {
+  margin-bottom: 12px;
+  font-size: 24px;
+  color: #1e3a8a;
+  border-bottom: 2px solid #2563eb;
+  display: inline-block;
+  padding-bottom: 4px;
 }
 
 .logout-button {
-  margin-top: 20px;
-  background-color: #e74c3c;
+  margin-top: 30px;
+  background-color: #ef4444;
   color: white;
   border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
+  padding: 14px 32px;
+  border-radius: 12px;
   cursor: pointer;
   font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 6px 14px rgba(239, 68, 68, 0.3);
 }
 
 .logout-button:hover {
-  background-color: #c0392b;
+  background-color: #dc2626;
 }
 
-.loading {
-  text-align: center;
-  margin-top: 40px;
+.loading,
+.error {
+  margin-top: 60px;
   font-size: 20px;
+  color: #1f2937;
+  font-weight: 500;
 }

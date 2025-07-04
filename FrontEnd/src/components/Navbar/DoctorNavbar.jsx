@@ -14,13 +14,10 @@ function DoctorNavbar() {
         </Link>
         <ul className="doctor-nav-links">
           <li>
-            <Link to="profile">Profilim</Link>
-          </li>
-          <li>
             <Link to="myAppointments">Randevularım</Link>
           </li>
           <li>
-            <Link to="profile" className="doctor-profile-link">
+            <Link to="profile">
               <CgProfile className="doctor-profile-icon" />
             </Link>
           </li>

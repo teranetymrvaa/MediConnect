@@ -205,3 +205,45 @@
 .swiper-pagination-bullet-active {
   background: #82ae46;
 }
+.doctors-section {
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.doctors-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.doctor-card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  width: 220px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.doctor-img {
+  width: 100%;
+  border-radius: 50%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.doctor-name {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.doctor-specialty {
+  color: #666;
+  font-size: 14px;
+}

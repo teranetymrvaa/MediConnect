@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import "./Home.css";
+import { Link } from "react-router-dom";
 
 function Home() {
+  const [doctors, setDoctors] = useState([]);
+
+  useEffect(() => {
+    fetchDoctors();
+  }, []);
+
+  const fetchDoctors = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/doctors");
+      setDoctors(response.data);
+    } catch (error) {
+      console.error("Error fetching doctors:", error);
+    }
+  };
+
   return (
     <div className="home-page">
       {/* Hero Section */}
@@ -21,6 +38,28 @@ function Home() {
             <button className="btn-primary">Həkimləri Göstər</button>
             <button className="btn-outline">Necə işləyir?</button>
           </div>
+        </div>
+      </section>
+
+      {/* ✅ Doctors Section */}
+      <section className="doctors-section">
+        <h2 className="section-title">Populyar Həkimlər</h2>
+        <div className="doctors-list">
+          {doctors.map((doctor) => (
+            <Link
+              to={`/public/doctorDetails/${doctor._id}`}
+              className="doctor-card"
+              key={doctor._id}
+            >
+              <img
+                src={doctor.profileImage}
+                alt={doctor.name}
+                className="doctor-img"
+              />
+              <h3 className="doctor-name">{doctor.name}</h3>
+              <p className="doctor-specialty">{doctor.profession}</p>
+            </Link>
+          ))}
         </div>
       </section>
 

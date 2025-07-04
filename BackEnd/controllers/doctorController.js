@@ -146,6 +146,16 @@ export const refreshToken = (req, res) => {
     res.json({ accessToken: newAccessToken });
   });
 };
+// Həkimlərin siyahısını almaq funksiyası
+export const getDoctors = async (req, res) => {
+  try {
+    const doctors = await Doctor.find({});
+    res.json(doctors);
+  } catch (error) {
+    console.error("Həkimlər alınarkən xəta:", error);
+    res.status(500).json({ message: "Xəta baş verdi" });
+  }
+};
 
 export const getDoctorById = async (req, res) => {
   try {

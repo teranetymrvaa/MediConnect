@@ -11,12 +11,12 @@ import Appointments from "./pages/Appointments/Appointments";
 import DoctorDetails from "./pages/DoctorDetails/DoctorDetails";
 import PatientProfile from "./pages/PatientProlfile/PatientProfile";
 
-import DoctorLayout from "./layout/DoctorLayout";
-import DoctorProfile from "./pages/DoctorProfile/DoctorProfile";
-import MyAppointments from "./pages/MyAppointments/MyAppointments";
-
 import NoPage from "./pages/NoPage";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import DoctorSlotsPage from "./pages/DoctorSlots/DoctorSlotsPage";
+import Doctors from "./pages/Doctors/Doctors";
+import DoctorProfile from "./pages/DoctorProfile/DoctorProfile";
+import MyAppointments from "./pages/MyAppointments/MyAppointments";
 
 function App() {
   const accessToken = localStorage.getItem("accessToken");
@@ -25,7 +25,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Əsas yönləndirmə: token + role əsaslı */}
+        {/* Əsas yönləndirmə */}
         <Route
           path="/"
           element={
@@ -46,7 +46,7 @@ function App() {
         <Route path="/patientRegister" element={<PatientRegister />} />
         <Route path="/doctorRegister" element={<DoctorRegister />} />
 
-        {/* Pasiyentlər üçün qorunan yollar */}
+        {/* Pasiyent və Doktor eyni layout */}
         <Route
           path="/public"
           element={
@@ -58,20 +58,32 @@ function App() {
           <Route index element={<Home />} />
           <Route path="wishlist" element={<Wishlist />} />
           <Route path="appointments" element={<Appointments />} />
-          <Route path="patientProfile" element={<PatientProfile />} />
           <Route path="faq" element={<Faq />} />
           <Route path="doctorDetails/:id" element={<DoctorDetails />} />
+          <Route path="doctors" element={<Doctors />} />
         </Route>
 
-        {/* Həkim paneli yolları */}
+        {/* Patient Profile ayrıca */}
+        <Route
+          path="/public/patientProfile"
+          element={
+            <ProtectedRoute>
+              <PatientProfile />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Həkim paneli — eyni layoutla */}
         <Route
           path="/doctor"
           element={
             <ProtectedRoute>
-              <DoctorLayout />
+              <PublicLayout />
             </ProtectedRoute>
           }
         >
+          <Route index element={<Navigate to="profile" replace />} />
+          <Route path="slots" element={<DoctorSlotsPage />} />
           <Route path="profile" element={<DoctorProfile />} />
           <Route path="myAppointments" element={<MyAppointments />} />
         </Route>

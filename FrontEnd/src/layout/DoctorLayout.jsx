@@ -1,16 +1,16 @@
-import React from 'react'
-import PublicFooter from '../components/Footer/PublicFooter'
-import DoctorNavbar from '../components/Navbar/DoctorNavbar'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import PublicFooter from "../components/Footer/PublicFooter";
+import DoctorNavbar from "../components/Navbar/DoctorNavbar";
+import { Outlet } from "react-router-dom";
 
 function DoctorLayout() {
   return (
     <div>
-       <DoctorNavbar />
+      <DoctorNavbar />
       <Outlet />
       <PublicFooter />
     </div>
-  )
+  );
 }
 
-export default DoctorLayout
+export default DoctorLayout;

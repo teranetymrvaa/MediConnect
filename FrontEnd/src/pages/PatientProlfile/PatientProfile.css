@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap");
 
 .profile-wrapper {
   min-height: 100vh;
@@ -9,7 +9,7 @@
   justify-content: center;
   padding: 40px 20px;
   color: #e0f7fa;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   /* user-select: none; */
 }
 
@@ -42,8 +42,13 @@
 }
 
 @keyframes pulseHeart {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
 }
 
 .profile-header h1 {
@@ -77,11 +82,11 @@
   box-shadow: inset 0 0 10px #00bcd4aa;
   transition: background-color 0.3s ease;
 }
-
+/* 
 .profile-info:hover {
   background-color: rgba(0, 188, 212, 0.15);
   box-shadow: 0 0 15px #00bcd4cc;
-}
+} */
 
 .icon {
   font-size: 1.5rem;
@@ -100,15 +105,15 @@
   color: white;
   cursor: pointer;
   box-shadow: 0 0 25px #ff1744aa;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-.btn-logout:hover {
+/* .btn-logout:hover {
   background: linear-gradient(135deg, #ff1744, #ff5252);
   box-shadow: 0 0 35px #ff5255;
-}
+} */
 
-.loading, .error {
+.loading,
+.error {
   color: #ff8a80;
   font-size: 1.3rem;
   height: 100vh;
@@ -122,8 +127,8 @@
   font-size: 1.4rem;
   font-weight: 600;
   font-style: italic;
-  color: #4dd0e1;
+  color: #ddd;
   text-align: center;
   max-width: 460px;
-  filter: drop-shadow(0 0 5px #4dd0e1aa);
+  filter: drop-shadow(0 0 5px #ddd);
 }

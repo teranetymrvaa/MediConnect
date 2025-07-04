@@ -34,7 +34,13 @@ function Login() {
         password,
       });
 
-      const { accessToken, refreshToken, doctorId, patientId, role: returnedRole } = res.data;
+      const {
+        accessToken,
+        refreshToken,
+        doctorId,
+        patientId,
+        role: returnedRole,
+      } = res.data;
 
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
@@ -44,10 +50,9 @@ function Login() {
       if (returnedRole === "doctor") {
         localStorage.setItem("doctorId", doctorId);
         navigate("/doctor");
-      } else if (returnedRole === "patient") {
-        localStorage.setItem("patientId", patientId);
-        navigate("/public");
       } else {
+        localStorage.setItem("patientId", patientId);
+
         navigate("/public");
       }
     } catch (error) {

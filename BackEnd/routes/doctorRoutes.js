@@ -4,14 +4,15 @@ import {
   getDoctorById,
   refreshToken,
   loginDoctor,
-  uploadProfilePic, // bunu import et
+  uploadProfilePic,
+  getDoctors, // bunu import et
 } from "../controllers/doctorController.js";
 import multer from "multer";
 
 const router = express.Router();
 
 const upload = multer({ storage: multer.memoryStorage() });
-
+router.get("/", getDoctors);
 router.post("/login", loginDoctor);
 router.post("/register", registerDoctor);
 router.get("/:id", getDoctorById);

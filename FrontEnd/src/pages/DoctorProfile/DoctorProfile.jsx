@@ -19,7 +19,9 @@ function DoctorProfile() {
         console.log("Doctor ID:", id);
 
         if (!token || !id) {
-          console.warn("Token və ya ID tapılmadı, login səhifəsinə yönləndirilir.");
+          console.warn(
+            "Token və ya ID tapılmadı, login səhifəsinə yönləndirilir."
+          );
           navigate("/login");
           return;
         }
@@ -53,32 +55,41 @@ function DoctorProfile() {
   if (!doctor) return <div className="error">Həkim tapılmadı.</div>; // əlavə təhlükəsizlik
 
   return (
-    <div className="doctor-profile">
-      <div className="profile-card">
-        <div className="profile-image">
-          <img
-            src={doctor.profileImage || "https://via.placeholder.com/150"}
-            alt={doctor.name}
-          />
+    <div className="doctor-profile-layout">
+      <div className="container doctor-profile-container">
+        {/* Sidebar with links */}
+        <div className="sidebar">
+          <div className="profile-header">
+            <img src={doctor.profileImage} alt={doctor.name} />
+            <h2>{doctor.name}</h2>
+            <p>{doctor.specialization}</p>
+          </div>
+
+          <nav className="sidebar-links">
+            <ul>
+              <li onClick={() => navigate("/doctor/appointments")}>
+                🗓️ Randevularım
+              </li>
+              <li onClick={() => navigate("/doctor/calendar")}>📅 Təqvimim</li>
+              <li onClick={() => navigate("/doctor/reviews")}>🧾 Rəylərim</li>
+              <li onClick={() => navigate("/doctor/settings")}>⚙️ Ayarlar</li>
+              <li onClick={() => navigate("/doctor/slots")}>🕒 Slotlarım</li>
+
+              <li onClick={handleLogout}>🚪 Çıxış et</li>
+            </ul>
+          </nav>
         </div>
-        <div className="profile-info">
-          <h1>{doctor.name}</h1>
-          <p><strong>Ixtisas:</strong> {doctor.specialization}</p>
-          <p><strong>Şəhər:</strong> {doctor.city}</p>
-          <p><strong>Xəstəxana:</strong> {doctor.hospitalName}</p>
-          <p><strong>Qiymət:</strong> {doctor.price} AZN</p>
-          <p><strong>Email:</strong> {doctor.email}</p>
+
+        {/* Main content area */}
+        <div className="main-content">
+          <div className="about-section">
+            <h2>Haqqımda</h2>
+            <p>
+              {doctor.description || "Həkim haqqında məlumat əlavə edilməyib."}
+            </p>
+          </div>
         </div>
       </div>
-
-      <div className="about-section">
-        <h2>Haqqımda</h2>
-        <p>{doctor.description || "Həkim haqqında məlumat əlavə edilməyib."}</p>
-      </div>
-
-      <button className="logout-button" onClick={handleLogout}>
-        Çıxış et
-      </button>
     </div>
   );
 }

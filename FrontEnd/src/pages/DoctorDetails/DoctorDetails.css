@@ -1,0 +1,39 @@
+.doctor-details {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.doctor-card-large {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 2rem;
+  background: #fdfdfd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.doctor-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.doctor-info h2 {
+  margin-top: 0;
+  font-size: 28px;
+}
+
+.doctor-info p {
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 20px;
+}

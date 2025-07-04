@@ -26,14 +26,14 @@ const Doctors = () => {
       .toLowerCase()
       .includes(search.toLowerCase());
     const matchesCategory =
-      category === "Hamısı" || doctor.profession === category;
+      category === "Hamısı" || doctor.specialization === category;
 
     return matchesSearch && matchesCategory;
   });
 
   const uniqueCategories = [
     "Hamısı",
-    ...Array.from(new Set(doctors.map((d) => d.profession))),
+    ...Array.from(new Set(doctors.map((d) => d.specialization))),
   ];
 
   return (
@@ -62,8 +62,9 @@ const Doctors = () => {
           <div className="doctor-card" key={doctor._id}>
             <img src={doctor.profileImage} alt={doctor.name} />
             <h3>{doctor.name}</h3>
-            <p>{doctor.profession}</p>
-            <Link to={`/public/doctors/${doctor._id}`} className="details-link">
+            <p>{doctor.specialization}</p>
+            <Link to={`/public/doctorDetails/${doctor._id}`} className="details-link">
+
               Ətraflı
             </Link>
           </div>
